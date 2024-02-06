@@ -1,0 +1,37 @@
+{
+    "version": "1.0",
+    "tables": {
+        "bob": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "Number",
+                    "ai": true
+                },
+                {
+                    "name": "name",
+                    "type": "String",
+                    "default": "Unknown"
+                }
+            ],
+            "data": [
+                [
+                    0,
+                    "Bob"
+                ],
+                [
+                    1,
+                    "Robert"
+                ],
+                [
+                    2,
+                    "Mac"
+                ],
+                [
+                    3,
+                    "James"
+                ]
+            ]
+        }
+    }
+}
