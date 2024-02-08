@@ -36,7 +36,7 @@ export default function GDJsonDatabaseProvider(props) {
                 let ret = { name: n, type: t };
                 if (t === 'number') ret = { ...ret, ai: ai ?? false };
 
-                if (c.default) ret = { ...ret, default: _valueConverter(t, c.default) };
+                if ('default' in c) ret = { ...ret, default: _valueConverter(t, c.default) };
 
                 return ret;
             })
@@ -51,7 +51,7 @@ export default function GDJsonDatabaseProvider(props) {
                 number: _.toNumber(value),
                 boolean: `${value}`.trim().toLowerCase() === 'true',
                 array: _.toArray(value),
-                date: new Date(Date.parse(`${value}`)),
+                date: new Date(value === 'now' ? Date.now() : Date.parse(`${value}`)),
             }[type];
         } catch (error) {
             return value;
@@ -122,7 +122,6 @@ export default function GDJsonDatabaseProvider(props) {
         const d = _databaseTransformer(newData);
         setData(d);
 
-        save();
         return true;
     };
 
@@ -337,7 +336,7 @@ export default function GDJsonDatabaseProvider(props) {
             let nd = Object.fromEntries(
                 columnNames.map((cName) => {
                     const column = _columnFromName(cName);
-                    if (column?.default) return [cName, _valueConverter((column?.type ?? 'string'), column.default)]
+                    if (column && 'default' in column) return [cName, _valueConverter((column?.type ?? 'string'), column.default)];
                     return [cName, null];
                 })
             );
